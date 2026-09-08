@@ -2,6 +2,10 @@
 
 Full release notes with details on each version: [GitHub Releases](https://github.com/safishamsi/graphify/releases)
 
+## 0.9.57 (unreleased)
+
+- Fix: `from . import mod` / `from pkg import mod` inside a PEP 420 namespace package (a directory with no `__init__.py`) now resolves to the sibling module files, so `mod.func()` calls link through the module-call arm exactly as in a regular package — previously the whole statement was dropped because the package resolved to no module file, and the most-called functions in such a repo carried in-degree 0 (a 300-node Python repo went from 201 to 307 `calls` edges; nothing else changed). Names that are not module files on disk still emit nothing.
+
 ## 0.9.56 (unreleased)
 
 - Fix: Rust trait method declarations (signature-only, and default-bodied) are now extracted as nodes — trait bodies were never walked, so both were silently dropped; a trait-declared method stays a distinct node from its impl definition (#3366, thanks @santoshpy).
